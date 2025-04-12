@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { ArrowDown } from "lucide-react";
 import { motion } from "framer-motion";
@@ -106,7 +105,7 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <p className="text-primary font-medium mb-4">Hello, I'm a</p>
+            <p className="text-primary font-medium mb-4">Hello, I'm</p>
           </motion.div>
           
           <motion.h1 
@@ -115,7 +114,7 @@ const Hero = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.4 }}
           >
-            <span className="relative z-10">Computer Engineer</span>
+            <span className="relative z-10">Pratik Patil</span>
             <motion.span 
               className="absolute -inset-1 bg-primary/10 rounded-md -z-10"
               initial={{ width: "0%" }}
