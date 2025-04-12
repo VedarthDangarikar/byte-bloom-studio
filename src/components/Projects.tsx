@@ -4,6 +4,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Github, ExternalLink } from "lucide-react";
+import { motion } from "framer-motion";
 
 type Technology = 'all' | 'c' | 'java' | 'javascript' | 'react' | 'tailwind';
 
@@ -65,6 +66,21 @@ const projects: Project[] = [
   }
 ];
 
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 }
+};
+
 const Projects = () => {
   const [selectedTech, setSelectedTech] = useState<Technology>('all');
   
@@ -86,85 +102,112 @@ const Projects = () => {
   return (
     <section id="projects" className="py-20 bg-muted/30">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-2 text-center">My Projects</h2>
-        <div className="w-16 h-1 bg-primary mx-auto mb-10"></div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+        >
+          <h2 className="text-3xl font-bold mb-2 text-center">My Projects</h2>
+          <div className="w-16 h-1 bg-primary mx-auto mb-10"></div>
+        </motion.div>
         
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
+        <motion.div 
+          className="flex flex-wrap justify-center gap-2 mb-10"
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          viewport={{ once: true }}
+        >
           <Button 
             variant={selectedTech === 'all' ? 'default' : 'outline'}
             onClick={() => setSelectedTech('all')}
+            className="transition-all duration-300"
           >
             All
           </Button>
           <Button 
             variant={selectedTech === 'c' ? 'default' : 'outline'}
             onClick={() => setSelectedTech('c')}
+            className="transition-all duration-300"
           >
             C
           </Button>
           <Button 
             variant={selectedTech === 'java' ? 'default' : 'outline'}
             onClick={() => setSelectedTech('java')}
+            className="transition-all duration-300"
           >
             Java
           </Button>
           <Button 
             variant={selectedTech === 'javascript' ? 'default' : 'outline'}
             onClick={() => setSelectedTech('javascript')}
+            className="transition-all duration-300"
           >
             JavaScript
           </Button>
           <Button 
             variant={selectedTech === 'react' ? 'default' : 'outline'}
             onClick={() => setSelectedTech('react')}
+            className="transition-all duration-300"
           >
             React
           </Button>
           <Button 
             variant={selectedTech === 'tailwind' ? 'default' : 'outline'}
             onClick={() => setSelectedTech('tailwind')}
+            className="transition-all duration-300"
           >
             Tailwind
           </Button>
-        </div>
+        </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+        >
           {filteredProjects.map(project => (
-            <Card key={project.id} className="flex flex-col h-full hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <CardTitle>{project.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="flex-grow">
-                <p className="text-muted-foreground mb-4">{project.description}</p>
-                <div className="flex flex-wrap gap-2">
-                  {project.technologies.map((tech) => (
-                    <Badge key={tech} className={`${getTechColor(tech)}`}>
-                      {tech.charAt(0).toUpperCase() + tech.slice(1)}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-              <CardFooter className="flex gap-2">
-                {project.githubUrl && (
-                  <Button size="sm" variant="outline" asChild>
-                    <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1">
-                      <Github size={16} />
-                      <span>Code</span>
-                    </a>
-                  </Button>
-                )}
-                {project.liveUrl && (
-                  <Button size="sm" asChild>
-                    <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1">
-                      <ExternalLink size={16} />
-                      <span>Demo</span>
-                    </a>
-                  </Button>
-                )}
-              </CardFooter>
-            </Card>
+            <motion.div key={project.id} variants={item}>
+              <Card className="flex flex-col h-full hover:shadow-lg transition-shadow duration-300 hover:-translate-y-1">
+                <CardHeader>
+                  <CardTitle>{project.title}</CardTitle>
+                </CardHeader>
+                <CardContent className="flex-grow">
+                  <p className="text-muted-foreground mb-4">{project.description}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {project.technologies.map((tech) => (
+                      <Badge key={tech} className={`${getTechColor(tech)}`}>
+                        {tech.charAt(0).toUpperCase() + tech.slice(1)}
+                      </Badge>
+                    ))}
+                  </div>
+                </CardContent>
+                <CardFooter className="flex gap-2">
+                  {project.githubUrl && (
+                    <Button size="sm" variant="outline" asChild className="group">
+                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1">
+                        <Github size={16} className="group-hover:rotate-12 transition-transform" />
+                        <span>Code</span>
+                      </a>
+                    </Button>
+                  )}
+                  {project.liveUrl && (
+                    <Button size="sm" asChild className="group">
+                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1">
+                        <ExternalLink size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                        <span>Demo</span>
+                      </a>
+                    </Button>
+                  )}
+                </CardFooter>
+              </Card>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
